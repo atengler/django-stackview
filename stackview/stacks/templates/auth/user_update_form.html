@@ -2,7 +2,7 @@
 
 {% if request.user.is_authenticated %}
   {% if request.user.id == user_id %}
-  <form action="" method="post">{% csrf_token %}
+  <form action="{% url "stacks:user_update" request.user.id %}" method="post">{% csrf_token %}
     {{ form.as_p }}
     <div class="text-right">
       <button class="btn btn-primary" type="submit">{% trans "Update" %}</button>
