@@ -7,8 +7,9 @@ class StackTable(tables.Table):
     name = tables.Column()
     backend = tables.Column()
     created = tables.Column()
+    status = tables.Column()
 
     class Meta:
         attrs = {'class': 'table table-hover'}
-        sequence = ('name', 'backend', 'created')
+        sequence = ('name', 'backend', 'created', 'status')
 
