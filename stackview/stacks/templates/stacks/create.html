@@ -2,12 +2,20 @@
 
 {% load i18n %}
 
-{% block title %}{% trans "Create Stack" %}{% endblock %}
+{% block title %}
+  {% trans "Create Stack" %}
+{% endblock %}
+
+{% block pagetitle %}
+  {% trans "Create Stack" %}
+{% endblock %}
 
 {% block content %}
-<form action="" method="post">{% csrf_token %}
+<div class="col-xs-12">
+  <form action="" method="post">{% csrf_token %}
     {{ form.as_p }}
     <input type="submit" class="btn btn-success pull-right" value="Launch" />
-</form>
+  </form>
+</div>
 {% endblock %}
 
