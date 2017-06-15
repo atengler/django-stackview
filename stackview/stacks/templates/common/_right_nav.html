@@ -1,0 +1,10 @@
+{% load i18n %}
+
+<li class="dropdown">
+  <a href="#" data-toggle="dropdown" class="dropdown-toggle">{% trans "Profile" %}<b class="caret"></b></a>
+  <ul class="dropdown-menu">
+    <li><a href="{% url 'stacks:user_update' request.user.id %}" data-toggle="modal" data-title="{% trans 'Update Profile' %}" data-target="#form-modal">{% trans "Update Profile" %}</a></li>
+    <li><a href="{% url 'logout' %}">{% trans "Logout" %}</a></li>
+  </ul>
+</li>
+

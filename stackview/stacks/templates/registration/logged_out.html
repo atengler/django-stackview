@@ -1,0 +1,14 @@
+{% extends "common/base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+<div class="col-xs-6 col-xs-offset-3">
+  <div class="well well-success">
+    <p class="text-center">
+      {% trans "We logged you out!" %} --- <a href="{% url 'stacks:home'%}">{% trans "Click here to login again." %}</a>
+    </p>
+  </div>
+</div>
+{% endblock %}
+
