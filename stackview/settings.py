@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
@@ -27,6 +26,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+WEBROOT = '/'
+LOGIN_URL = None
+LOGOUT_URL = None
+LOGIN_REDIRECT_URL = None
+STATIC_ROOT = None
+STATIC_URL = None
 
 # Application definition
 
@@ -124,4 +129,22 @@ STATIC_URL = '/static/'
 
 # Django Tables 2
 DJANGO_TABLES2_TEMPLATE = 'django_tables2/bootstrap-responsive.html'
+
+if not WEBROOT.endswith('/'):
+    WEBROOT += '/'
+if LOGIN_URL is None:
+    LOGIN_URL = WEBROOT + 'auth/login/'
+if LOGOUT_URL is None:
+    LOGOUT_URL = WEBROOT + 'auth/logout/'
+if LOGIN_REDIRECT_URL is None:
+    LOGIN_REDIRECT_URL = WEBROOT
+
+MEDIA_ROOT = os.path.abspath(os.path.join(BASE_DIR, '..', 'media'))
+MEDIA_URL = WEBROOT + 'media/'
+
+if STATIC_ROOT is None:
+    STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, '..', 'static'))
+
+if STATIC_URL is None:
+    STATIC_URL = WEBROOT + 'static/'
 
