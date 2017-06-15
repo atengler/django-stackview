@@ -1,8 +1,13 @@
 #!/bin/bash
 
-[ -f db.sqlite3 ] && rm -f db.sqlite3
+which virtualenv > /dev/null 2>&1 || \
+  { echo -e "You must have python-virtualenv installed:\n    sudo apt-get install python-virtualenv"; exit 1; }
 
-python manage.py migrate
+[ -d venv ] || (virtualenv venv && . venv/bin/activate && pip install -r requirements.txt)
+. venv/bin/activate
+
+[ -f db.sqlite3 ] || python manage.py migrate
+
 python manage.py collectstatic --noinput
 python manage.py compress --force
 
