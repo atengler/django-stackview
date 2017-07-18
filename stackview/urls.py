@@ -16,10 +16,14 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
+from .views import IndexView
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^auth/', include('django.contrib.auth.urls')),
-    url(r'', include('stackview.stacks.urls')),
+    url(r'^$', IndexView.as_view(), name='index'),
+    url(r'^stacks/', include('stackview.stacks.urls')),
+    url(r'^identity/', include('stackview.identity.urls')),
 ]
 

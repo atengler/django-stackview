@@ -37,6 +37,7 @@ STATIC_URL = None
 
 INSTALLED_APPS = [
     'django_tables2',
+    'stackview.identity',
     'stackview.stacks',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -58,10 +59,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'stackview.urls'
 
+BASE_TEMPLATES = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_TEMPLATES],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -85,7 +88,15 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    },
+    'postgres': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'stackview',
+        'USER': 'stackview',
+        'PASSWORD': 'stackview',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    },
 }
 
 
@@ -129,6 +140,9 @@ STATIC_URL = '/static/'
 
 # Django Tables 2
 DJANGO_TABLES2_TEMPLATE = 'django_tables2/bootstrap-responsive.html'
+
+# Override login URL
+LOGIN_URL = 'identity/login/'
 
 if not WEBROOT.endswith('/'):
     WEBROOT += '/'

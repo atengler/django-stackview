@@ -1,6 +1,5 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import ugettext_lazy as _
 
 from .models import Stack
@@ -32,21 +31,4 @@ class StackCreateForm(BootstrapFormMixin, forms.Form):
         backend = self.cleaned_data.get('backend', None)
         if isinstance(author, User) and name and backend:
             Stack.objects.create(name=name, backend=backend, author=author)
-
-
-class UserUpdateForm(BootstrapFormMixin, forms.ModelForm):
-
-    def __init__(self, *args, **kwargs):
-        super(UserUpdateForm, self).__init__(*args, **kwargs)
-
-        for key in self.fields:
-            self.fields[key].required = True
-
-    class Meta:
-        model = User
-        fields = ['first_name', 'last_name', 'email']
-
-
-class LoginForm(BootstrapFormMixin, AuthenticationForm):
-    pass
 
