@@ -12,9 +12,15 @@ class Tenant(models.Model):
     name = models.CharField(max_length=255, verbose_name=_('Stack Name'))
     created = models.DateTimeField(auto_now_add=True, blank=True)
 
+    def __str__(self):
+        return self.name
+
 
 class TenantMembership(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name=_('User'))
-    user = models.OneToOneField(Tenant, on_delete=models.CASCADE, verbose_name=_('Tenant'))
+    tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE, verbose_name=_('Tenant'))
     created = models.DateTimeField(auto_now_add=True, blank=True)
+
+    def __str__(self):
+        return '%s - %s' % (self.user, self.tenant)
 

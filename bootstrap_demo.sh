@@ -13,13 +13,30 @@ python manage.py compress --force
 
 read -r -d '' USERS << EOM
 from django.contrib.auth import get_user_model;
+from stackview.identity.models import Tenant, TenantMembership;
 User = get_user_model();
-User.objects.filter(email='admin@example.com').delete();
+User.objects.all().delete();
+Tenant.objects.all().delete();
+TenantMembership.objects.all().delete();
 User.objects.create_superuser('admin', 'admin@example.com', 'Admin123');
-User.objects.filter(email='demo@example.com').delete();
-demo = User.objects.create(username='demo', email='demo@example.com');
-demo.set_password('Demo123');
-demo.save();
+demo1 = User.objects.create(username='demo1', email='demo1@example.com');
+demo1.set_password('Demo123');
+demo1.save();
+demo2 = User.objects.create(username='demo2', email='demo2@example.com');
+demo2.set_password('Demo123');
+demo2.save();
+tenant1 = Tenant.objects.create(name="Demo Tenant 1");
+TenantMembership.objects.create(user=demo1, tenant=tenant1);
+TenantMembership.objects.create(user=demo2, tenant=tenant1);
+demo3 = User.objects.create(username='demo3', email='demo3@example.com');
+demo3.set_password('Demo123');
+demo3.save();
+demo4 = User.objects.create(username='demo4', email='demo4@example.com');
+demo4.set_password('Demo123');
+demo4.save();
+tenant2 = Tenant.objects.create(name="Demo Tenant 2");
+TenantMembership.objects.create(user=demo3, tenant=tenant2);
+TenantMembership.objects.create(user=demo4, tenant=tenant2);
 EOM
 
 echo $USERS | python manage.py shell

@@ -38,7 +38,7 @@ class OverviewView(LoginRequired, TemplateView):
         ctx = super(OverviewView, self).get_context_data(*args, **kwargs)
 
         if self.request.user.is_authenticated():
-            stacks = Stack.objects.filter(author=self.request.user)
+            stacks = Stack.objects.filter(tenant=self.request.user.tenantmembership.tenant)
             table = StackTable(stacks)
             RequestConfig(self.request).configure(table)
             ctx['stacks'] = table

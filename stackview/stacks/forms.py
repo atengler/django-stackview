@@ -26,9 +26,10 @@ class StackCreateForm(BootstrapFormMixin, forms.Form):
         #TODO: call Jenkins here
         return cleaned_data
 
-    def save_stack(self, author):
+    def save_stack(self, owner):
         name = self.cleaned_data.get('name', None)
         backend = self.cleaned_data.get('backend', None)
-        if isinstance(author, User) and name and backend:
-            Stack.objects.create(name=name, backend=backend, author=author)
+        if isinstance(owner, User) and name and backend:
+            tenant = owner.tenantmembership.tenant
+            Stack.objects.create(name=name, backend=backend, owner=owner, tenant=tenant)
 
