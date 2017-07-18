@@ -7,13 +7,15 @@ from django.contrib.auth import authenticate, login, get_user_model
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic.edit import UpdateView, FormView
 
+from stackview.mixins import LoginRequired
+
 from .forms import LoginForm, UserUpdateForm
 
 LOG = logging.getLogger(__name__)
 User = get_user_model()
 
 
-class UserUpdateView(UpdateView):
+class UserUpdateView(LoginRequired, UpdateView):
     model = User
     template_name = "identity/user_update_form.html"
     form_class = UserUpdateForm
@@ -32,7 +34,13 @@ class UserUpdateView(UpdateView):
 class LoginView(FormView):
     template_name = 'identity/login.html'
     form_class = LoginForm
-    success_url = reverse_lazy('index')
+
+    def get_success_url(self):
+        next_url = self.request.GET.get('next', None)
+        if next_url:
+           return "%s" % (next_url)
+        else:
+           return reverse_lazy('index')
 
     def form_valid(self, form):
         user = None

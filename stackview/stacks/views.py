@@ -11,6 +11,8 @@ from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView, UpdateView
 from django_tables2 import RequestConfig
 
+from stackview.mixins import LoginRequired
+
 from .forms import StackCreateForm
 from .models import Stack
 from .tables import StackTable
@@ -19,7 +21,7 @@ LOG = logging.getLogger(__name__)
 User = get_user_model()
 
 
-class CreateStackView(FormView):
+class CreateStackView(LoginRequired, FormView):
     template_name = 'stacks/create.html'
     form_class = StackCreateForm
     success_url = reverse_lazy('stacks:overview')
@@ -29,7 +31,7 @@ class CreateStackView(FormView):
         return super(CreateStackView, self).form_valid(form)
 
 
-class OverviewView(TemplateView):
+class OverviewView(LoginRequired, TemplateView):
     template_name = 'stacks/overview.html'
 
     def get_context_data(self, *args, **kwargs):
